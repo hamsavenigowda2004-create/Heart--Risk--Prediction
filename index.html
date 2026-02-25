@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Heart Risk Analysis</title>
+
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background: #b5336b;
+            background: radial-gradient(circle, rgba(181, 51, 107, 1) 0%, rgba(148, 187, 233, 1) 100%);            padding: 40px;
+        }
+
+        .container{
+            width: 600px;
+            margin: auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        h1{
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label{
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input{
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 10px;
+            border: 1px solid gray;
+        }
+
+        button{
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            background: radial-gradient(circle, rgba(181, 51, 107, 1) 0%, rgba(148, 187, 233, 1) 100%);        
+            padding: 40px;
+;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover{
+            background-color: #5a189a;
+        }
+
+        .result{
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f4f4f4;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Heart Risk Prediction</h1>
+
+    <form action="/predict" method="POST">
+
+        <label>Age:</label>
+        <input type="number" name="age" step="any" required>
+
+        <label>Sex (1 = Male, 0 = Female):</label>
+        <input type="number" name="sex" step="any" required>
+
+        <label>Resting Blood Pressure:</label>
+        <input type="number" name="resting_bp_s" step="any" required>
+
+        <label>Chest Pain Type (0-3):</label>
+        <input type="number" name="chest_pain_type" step="any" required>
+
+        <label>Cholesterol:</label>
+        <input type="number" name="cholesterol" step="any" required>
+
+        <label>Maximum Heart Rate:</label>
+        <input type="number" name="max_heart_rate" step="any" required>
+
+        <label>ST Depression (Oldpeak):</label>
+        <input type="number" name="oldpeak" step="any" required>
+
+        <button type="submit">Predict Risk Level</button>
+    </form>
+
+    {% if predicted_class %}
+    <div class="result">
+        <h3>Prediction Result</h3>
+        <p><strong>Predicted Risk Level:</strong> {{ predicted_class }}</p>
+
+        <p><strong>Prediction Probabilities:</strong></p>
+        <ul>
+            {% for class, prob in predicted_probabilities.items() %}
+                <li>{{ class }} : {{ prob | round(4) }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+</div>
+
+</body>
+</html>
